@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
   root 'landingpages#home'
-  get 'about', to: 'landingpages#about'
+  get '/about', to: 'landingpages#about'
   get '/contact' , to: 'landingpages#contact'
   get '/help', to: 'landingpages#help'
   get '/terms_of_use', to: 'landingpages#terms_of_use'
