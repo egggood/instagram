@@ -1,15 +1,18 @@
-<% provides(:title, "Sign up") %>
+<% provide(:title, "Sign up") %>
 
 <%= form_for @user do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name, class: 'form-control' %>
+  <%= f.label :name, "フルネーム" %>
+  <%= f.text_field :name %>
 
   <%= f.label :user_name %>
-  <%= f.text_field :user_name, class: 'form-control' %>
+  <%= f.text_field :user_name %>
 
-  <%= f.label :email %>
-  <%= f.email_field :email, class: 'form-control' %>
+  <%= f.label :password %>
+  <%= f.password_field :password %>
 
-  <%= f.submit "Create my account", class: "btn btn-primary" %>
+  <%= f.label :password_confirmation, "確認用" %>
+  <%= f.password_field :password_confirmation %>
+
+  <%= f.submit "登録する" %>
 
 <% end %>

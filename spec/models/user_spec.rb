@@ -37,6 +37,8 @@ RSpec.describe User, type: :model do
 
   #emailがnilでも有効であること
   #expect(FactoryBot.build(:user, email: "")).to be_validだと可読性が下がる？
+  #be_validだとbefore_saveが実行されない?nilだとself.email.downcaseのdowncaseが実行できなくて手動で確認するとエラーになった、
+  #before_save{self.email = self.email.downcase unless self.email.nil?}で対処はしといたが問題だよね...
   it "is valid without an email" do
     user = FactoryBot.build(:user, email: "")
     expect(user).to be_valid

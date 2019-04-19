@@ -2,7 +2,8 @@ class User < ApplicationRecord
   validates :name, presence: true, length:{maximum: 50}
   validates :user_name, presence: true, length:{maximum: 50}, uniqueness: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  before_save {self.email = self.email.downcase}
+  #self.email.empty?だとundifined method for NilClassになった。nil,empty,blankの違いを知らい
+  before_save {self.email = self.email.downcase unless self.email.nil?}
   validates :email, presence: true, allow_blank: true,
                     uniqueness: { case_sensitive: false },
                     format: { with: VALID_EMAIL_REGEX }
