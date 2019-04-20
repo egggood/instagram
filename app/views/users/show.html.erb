@@ -1,3 +1,4 @@
 <% provide(:title, "#{@user.name}") %>
+<%= "#{@user.name}としてログインしいます" %>
 <%= link_to("ログアウト", logout_path, method: :delete) %>
 <%= link_to "delete", user_path(@user.id), method: :delete %>
