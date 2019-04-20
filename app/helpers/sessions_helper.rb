@@ -22,6 +22,7 @@ module SessionsHelper
   end
 
   def current_user
+    #全てのifに対してfalseならnilを返す
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
@@ -29,9 +30,11 @@ module SessionsHelper
       if user && user.authenticated?(cookies[:remember_token])
         log_in user
         @current_user = user
-      else
-        @current_user
       end
     end
+  end
+
+  def logged_in?
+    !current_user.nil?
   end
 end

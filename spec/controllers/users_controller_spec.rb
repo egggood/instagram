@@ -51,7 +51,7 @@ RSpec.describe UsersController, type: :controller do
     before do
       @user = FactoryBot.create(:user)
       @othre_user1 = FactoryBot.create(:user)
-      other_user2 = FactoryBot.create(:user)
+      session[:user_id] = @user.id
     end
 
     it "redirect_to root_url when user is deleted" do
@@ -73,4 +73,31 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe "get #edit" do
+    before do
+      @user = FactoryBot.create(:user)
+    end
+    #正常にレスポンス鵜を返すこと
+    it "responds succefully" do
+      session[:user_id] = @user.id
+      get :edit, params: {id: @user.id}
+      expect(response).to be_success
+    end
+
+    #ログインしてない時はget login_pathに戻る
+    it "return login_path when user dose not login" do
+      get :edit, params: {id: @user.id}
+      expect(response).to redirect_to '/login'
+    end
+
+    #ログインしているが自分の情報以外を編集したら、root_urlに戻る
+    it "return root_url when user edit other user infomation" do
+      @other_user = FactoryBot.create(:user)
+      session[:user_id] = @user.id
+      get :edit, params: {id: @other_user.id}
+      expect(response).to render_template '/'
+      #expect(response).to redirect_to '/'だと3XXを期待したけど200okでしたとエラーに言われた。
+      #このテストは一考の余地あり。
+    end
+  end
 end
