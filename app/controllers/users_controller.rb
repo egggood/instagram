@@ -16,7 +16,6 @@ class UsersController < ApplicationController
       log_in @user
       redirect_to @user
     else
-      #raise
       render 'users/new'
     end
   end
@@ -26,7 +25,13 @@ class UsersController < ApplicationController
   end
 
   def update
-
+     @user = User.find(params[:id])
+     if @user.update_attributes(user_params)
+       flash[:success] = "更新に成功しました！"
+       redirect_to @user
+     else
+       render 'users/edit'
+     end
   end
 
   def destroy
@@ -42,7 +47,7 @@ class UsersController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_path) unless @user = current_user
+    redirect_to(root_path) unless @user == current_user
   end
 
   def logged_in_user

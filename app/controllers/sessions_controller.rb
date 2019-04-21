@@ -16,9 +16,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
-    log_out
-    forget user
+    log_out if logged_in?
     redirect_to root_path
   end
 end

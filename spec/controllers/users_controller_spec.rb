@@ -25,10 +25,7 @@ RSpec.describe UsersController, type: :controller do
 
   #ストロングパラメータを使ったコントローラをRSpecでテストする方法が分からない
   describe "#create" do
-    before do
-      @user = FactoryBot.build(:user)
-    end
-
+    #userの作成に成功する
     #ローカル変数paramaを使うとuser_paramsを突破できるがなぜだかは不明、学習が進んだらhtml or httpの記述ととparamsの関係を調べてみる。
     #redirect_to "/users/#{@user.id}"みたいにしたい..
     it "redirect_to /users/n\#{@user.id} when @user.save => true" do
@@ -90,14 +87,60 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to redirect_to '/login'
     end
 
-    #ログインしているが自分の情報以外を編集したら、root_urlに戻る
+    #ログインしているが自分の情報以外を編集ページに行ったら、root_urlに戻る
     it "return root_url when user edit other user infomation" do
       @other_user = FactoryBot.create(:user)
       session[:user_id] = @user.id
       get :edit, params: {id: @other_user.id}
-      expect(response).to render_template '/'
+      expect(response).to redirect_to '/'
       #expect(response).to redirect_to '/'だと3XXを期待したけど200okでしたとエラーに言われた。
       #このテストは一考の余地あり。
+    end
+  end
+
+  describe "Patch #update" do
+    before do
+      @param = FactoryBot.attributes_for(:user)
+      @user = User.create(**@param)
+    end
+
+    #ログインしていて、自分自身を編集する時は更新にに成功する
+    it "returns http success when succeeds to update" do
+      session[:user_id] = @user.id
+      @param[:name] = "new_name"
+      patch :update, params: {user: {**@param}, id: @user.id}
+      expect(@user.reload.name).to eq "new_name"
+    end
+
+    #編集に成功すると/users/:idにtredirectする
+    it "redirect_to show.html.view when edit succeeds" do
+      session[:user_id] = @user.id
+      patch :update, params: {user: {**@param}, id: @user.id}
+      expect(response).to redirect_to '/users/1'
+    end
+
+    #ログインしてない状態でupdateすると/loginにredirect_toされる
+    it "redirect to /login when update user infomatino withou login" do
+      @param[:name] = "new_name"
+      patch :update, params: {user: {**@param}, id: @user.id}
+      expect(response).to redirect_to '/login'
+    end
+
+    #ログインしているが違うuserの情報をupdateしようとしたらroot_urlに飛ぶ
+    it "redirect_to root_url when update other user infomation" do
+      session[:user_id] = @user.id
+      other_user_params = FactoryBot.attributes_for(:user)
+      other_user = User.create(**other_user_params)
+      patch :update, params: {user: {**other_user_params}, id: other_user.id}
+      expect(response).to redirect_to '/'
+    end
+
+    #ログインして自分の情報を編集しようとするがif文がfalseでusers/editをrenderする
+    it "render 'users/edit' when @user.update_attributes failds" do
+      session[:user_id] = @user.id
+      @param[:name] = ""
+      patch :update, params: {user: {**@param}, id: @user.id}
+      expect(response).to render_template 'users/edit'
     end
   end
 end
