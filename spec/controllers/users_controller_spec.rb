@@ -58,15 +58,8 @@ RSpec.describe UsersController, type: :controller do
 
     #userがdleteされたらuserの総数は-1される
     it "deleteされたらuser.all.countの数は-1される" do
-      pending
-      delete :destroy, params: {id: @other_user1.id}
-      expect(User.all.count).to eq 2
-    end
-
-    #userがdleteされたらuserの総数は-1される
-    it "deleteされたらuser.all.countの数は-1される" do
       delete :destroy, params: {id: @user.id}
-      expect(User.all.count).to eq 2
+      expect(User.all.count).to eq 1
     end
   end
 

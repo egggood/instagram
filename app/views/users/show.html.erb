@@ -1,4 +1,4 @@
 <% provide(:title, "#{@user.name}") %>
-<%= "#{@user.name}としてログインしいます" %>
+<%= render 'users/user' %>
 <%= link_to("編集する", edit_user_path(@user.id)) %>
 <%= link_to("delete", user_path(@user.id), method: :delete) %>
