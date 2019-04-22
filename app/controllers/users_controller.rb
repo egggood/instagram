@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
   before_action :logged_in_user,only:[:edit,:update, :destroy]
   before_action :correct_user, only:[:edit, :update, :destroy]
+
   def new
     @user = User.new
   end
 
   def show
     @user = User.find_by(id: params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def create

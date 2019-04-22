@@ -2,3 +2,9 @@
 <%= render 'users/user' %>
 <%= link_to("編集する", edit_user_path(@user.id)) %>
 <%= link_to("delete", user_path(@user.id), method: :delete) %>
+
+<% will_paginate(@microposts) %>
+<% @microposts.each do |micropost| %>
+<%= image_tag(micropost.picture.url) %>
+<% end %>
+<% will_paginate @microposts %>

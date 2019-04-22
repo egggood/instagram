@@ -44,4 +44,14 @@ RSpec.describe MicropostsController, type: :controller do
       expect(@micropost).to eq nil
     end
   end
+
+  describe "Get #new" do
+    #micrposts/newへのアクセスに成功する
+    it "return http success" do
+      get :new
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  #pictureに関するテストはどう書けばいいか分からなかった。
 end
