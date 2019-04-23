@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  #有効なファクロリを持つ
+  #有効なファクトロリを持つ
   it "has a valid factory" do
     expect(FactoryBot.build(:user)).to be_valid
   end
