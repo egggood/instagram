@@ -25,6 +25,7 @@
   <%= f.label :password_confirmation, "確認用" %>
   <%= f.password_field :password_confirmation %>
 
+  <%= f.file_field :profile_picture, accept: 'image/jpeg,image/png' %>
 
   <%= f.submit "更新する" %>
 

@@ -12,7 +12,7 @@ class MicropostsController < ApplicationController
       flash[:success] = "投稿に成功しました"
       redirect_to user_path (@current_user.id)
     else
-      # とりあえずhelpに飛ばす
+      #とりあえずhelpに飛ばす
       render 'landingpages/help'
     end
   end
@@ -20,10 +20,9 @@ class MicropostsController < ApplicationController
   def destroy
     #違うuuserの投稿を削除しようとしたら例外が生じる
     @micropost = @current_user.microposts.find(params[:id])
-      @micropost
-      @micropost.destroy
-      flash[:success] = "削除に成功しました。"
-      redirect_to user_path (@current_user.id)
+    @micropost.destroy
+    flash[:success] = "削除に成功しました。"
+    redirect_to user_path (@current_user.id)
   end
 
   private
