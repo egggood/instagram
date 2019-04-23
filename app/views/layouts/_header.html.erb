@@ -1,9 +1,10 @@
+<%= link_to('top', root_url) %>
 <%= link_to('about', about_path) %>
 <%= link_to('contact', contact_path) %>
 <%= link_to('help', help_path) %>
-<%= link_to("新規登録", new_user_path) %>
-<%= link_to('top', root_url) %>
-<%= link_to('ログイン', login_path) %>
 <% if logged_in? %>
 <%= link_to("ログアウト", logout_path, method: :delete) %>
+<% else %>
+<%= link_to('ログイン', login_path) %>
+<%= link_to("新規登録", new_user_path) %>
 <% end %>

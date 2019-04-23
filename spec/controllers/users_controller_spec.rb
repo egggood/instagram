@@ -135,5 +135,19 @@ RSpec.describe UsersController, type: :controller do
       patch :update, params: {user: {**@param}, id: @user.id}
       expect(response).to render_template 'users/edit'
     end
+
+    describe "Get #following" do
+      it "returns http success" do
+        get :following , params: {id: 1}
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    describe "#Get #followed" do
+      it "returns http success" do
+        get :following , params: {id: 1}
+        expect(response).to have_http_status(:success)
+      end
+    end
   end
 end
