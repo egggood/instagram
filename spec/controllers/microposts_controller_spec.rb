@@ -53,5 +53,18 @@ RSpec.describe MicropostsController, type: :controller do
     end
   end
 
+  describe "Get #show" do
+    before do
+      @user = FactoryBot.create(:user)
+      FactoryBot.create(:micropost)
+    end
+    #アクセスに成功するとresponseに200が含まれる
+    it "return http success" do
+      session[:user_id] = @user.id
+      get :show, params: {id: @user.id}
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   #pictureに関するテストはどう書けばいいか分からなかった。
 end

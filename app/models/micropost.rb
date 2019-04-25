@@ -1,5 +1,6 @@
 class Micropost < ApplicationRecord
   belongs_to :user
+  has_many :reply
   mount_uploader :picture, PictureUploader
   validates :content, presence: true
   validates :user_id, presence: true

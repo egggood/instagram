@@ -1,13 +1,14 @@
 <% provide(:title, "Log in") %>
 
 <%= form_for(@user) do |f| %>
-
-  <%= f.label :name %>
+  <p>公開されます</p>
+  <%= f.label :name, 'name ※必須' %>
   <%= f.text_field :name %>
 
-  <%= f.label :user_name %>
+  <%= f.label :user_name, 'user_nam ※必須' %>
   <%= f.text_field :user_name %>
 
+  <p>他のユーザーには公開されません</p>
   <%= f.label :email %>
   <%= f.email_field :email %>
 
@@ -30,3 +31,4 @@
   <%= f.submit "更新する" %>
 
 <% end %>
+<%= link_to("delete", user_path(@user.id), method: :delete) %>

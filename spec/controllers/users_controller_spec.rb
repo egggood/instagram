@@ -148,7 +148,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe "#Get #followed" do
+  describe "Get #followed" do
     before do
       @user = FactoryBot.create(:user)
     end

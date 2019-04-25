@@ -1,8 +1,14 @@
 class MicropostsController < ApplicationController
-  before_action :logged_in_user, only:[:create, :destroy]
+  before_action :logged_in_user, only:[:create, :destroy, :show]
 
   def new
     @micropost = Micropost.new
+  end
+
+  def show
+    @micropost = Micropost.find(params[:id])
+    @reply = Reply.new
+    @replies = Reply.all
   end
 
 
