@@ -8,6 +8,8 @@ class User < ApplicationRecord
                                   dependent:   :destroy
   has_many :following, through: :active_relationships,  source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :active_likes, class_name: "Like",foreign_key: "user_id", dependent: :destroy
+  has_many :liking, through: :active_likes, source: :micropost
   mount_uploader :profile_picture, PictureUploader
   attr_accessor :remember_token
   validates :name, presence: true, length:{maximum: 50}
@@ -62,5 +64,20 @@ class User < ApplicationRecord
   def following?(other_user)
     following.include?(other_user)
   end
+
+  #投稿にいいねする
+   def like(micropost)
+     liking << micropost
+   end
+
+   #投稿のいいねを取り消す
+   def undo_like(micropost)
+     active_likes.find_by(micropost_id: micropost.id).destroy
+   end
+
+   # いいねした東欧ならtureを返す
+   def like?(micropost)
+     liking.include?(micropost)
+   end
 
 end

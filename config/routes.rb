@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  resources :reply, only:[:create, :destroy]
   resources :users do
     member do
       get :following, :followers, :password_edit
@@ -20,4 +19,6 @@ Rails.application.routes.draw do
   resources :users
   resources :microposts, only:[:new, :show, :create, :destroy]
   resources :relationships,       only: [:create, :destroy]
+  resources :reply, only:[:create, :destroy]
+  resources :likes, only: [:create, :destroy]
 end
