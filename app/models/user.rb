@@ -24,6 +24,7 @@ class User < ApplicationRecord
   validates :phonenumber, presence: true, allow_blank: true, uniqueness: true
   #genderはmaleとfemaleだけしかpassしないようにする
   validates :gender, presence: true, allow_blank: true
+  validates :self_introduction, presence: true, allow_blank: true, length:{maximum: 140}
   has_secure_password
   validates :password, presence: true, length:{minimum: 6}, allow_nil: true
   def User.digest(string)

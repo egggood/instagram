@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   #passwordの更新と他のユーザー情報の更新を分けた場合はストロングパラメータも分けたほうがいいのかな？
   #ユーザーのsign-up(#create)で使われているので、passwordがないとユーザーを登録できないので必要
   def user_params
-    params.require(:user).permit(:name, :user_name, :email,
+    params.require(:user).permit(:name, :user_name, :email, :self_introduction,
                                  :phonenumber, :gender, :profile_picture,
                                  :password, :password_confirmation)
   end

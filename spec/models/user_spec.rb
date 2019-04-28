@@ -136,6 +136,15 @@ RSpec.describe User, type: :model do
     expect(user.errors[:password]).to include("is too short (minimum is 6 characters)")
   end
 
+  #self_introductionは140を超えてはいけない（以内はOK)
+  it "is invalid with a than 140 characters self_introduction" do
+    user = FactoryBot.build(:user, self_introduction: "a"*141)
+    user.valid?
+    expect(user.errors[:self_introduction]).to include("is too long (maximum is 140 characters)")
+  end
+
+
+
 
 
 

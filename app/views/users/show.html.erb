@@ -1,11 +1,35 @@
 <% provide(:title, "#{@user.name}") %>
-<%= render 'users/user' %>
-<%= render 'shared/stats.html' %>
-<% if current_user == @user %>
-<%= link_to("編集する", edit_user_path(@user.id)) %>
-<% else %>
-<%= render 'users/follow_form' %>
-<% end %>
+<div class  = "row" >
+  <aside class = "col-md-4">
+    <section class = "user_info">
+
+      <div>
+        <%= render 'users/user' %>
+        <%= render 'shared/stats.html' %>
+      </div>
+
+      <div>
+        <%= @user.self_introduction %>
+      </div>
+
+      <div>
+        <ul>
+          <% if current_user == @user %>
+          <li><%= link_to("編集する", edit_user_path(@user.id)) %></li>
+          <% else %>
+          <li><%= render 'users/follow_form' %></li>
+          <% end %>
+        </ul>
+      </div>
+
+    </section>
+
+
+  </aside>
+</div>
+
+
+
 
 <% will_paginate(@microposts) %>
 <% @microposts.each do |micropost| %>

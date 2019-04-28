@@ -1,5 +1,4 @@
-<%# 画像 %>
-<%= @user.name %>
-<%= @user.user_name %>
-<%= @user.microposts.count %>
 <%= image_tag(@user.profile_picture.url) if @user.profile_picture?%>
+<h2><%= @user.name %></h2>
+<h3><%= @user.user_name %></h3>
+<%= @user.microposts.count %>
