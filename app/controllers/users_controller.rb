@@ -44,18 +44,18 @@ class UsersController < ApplicationController
   end
 
   def following
-   @title = "Following"
-   @user  = User.find(params[:id])
-   @users = @user.following.paginate(page: params[:page])
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
    render 'show_follow'
- end
+  end
 
- def followers
-   @title = "Followers"
-   @user  = User.find(params[:id])
-   @users = @user.followers.paginate(page: params[:page])
-   render 'show_follow'
- end
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+  end
 
   private
   #passwordの更新と他のユーザー情報の更新を分けた場合はストロングパラメータも分けたほうがいいのかな？

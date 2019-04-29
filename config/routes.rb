@@ -9,12 +9,13 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users do
     member do
-      get :following, :followers, :password_edit
-      post :password_update
+      get :following, :followers#, :password_edit
+      # post :password_update
     end
-    collection do
-      get :password_new
-    end
+    #passwordの変更は未実装
+    # collection do
+    #   get :password_new
+    # end
   end
   resources :users
   resources :microposts, only:[:new, :show, :create, :destroy]
