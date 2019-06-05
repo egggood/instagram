@@ -7,3 +7,6 @@ Lint/ParenthesesAsGroupedExpression:
 Lint/AssignmentInCondition:
   Exclude:
     - 'app/helpers/sessions_helper.rb'
+
+RedundantSelf:
+  Enabled: false
