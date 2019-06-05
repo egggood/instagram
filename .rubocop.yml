@@ -1,12 +1,56 @@
 inherit_from:
   - .rubocop_airbnb.yml
 
+Layout/IndentationConsistency:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+Metrics/LineLength:
+  Exclude:
+     - 'db/seeds.rb'
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'db/schema.rb'
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'db/schema.rb'
+
+Layout/IndentationConsistency:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+Style/MixinUsage:
+  Exclude:
+    - 'bin/setup'
+    - 'bin/update'
+
+Style/RedundantBegin:
+  Exclude:
+    - 'bin/yarn'
+
+Style/StderrPuts:
+  Exclude:
+    - 'bin/yarn'
+
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
     - 'app/controllers/microposts_controller.rb'
 Lint/AssignmentInCondition:
   Exclude:
     - 'app/helpers/sessions_helper.rb'
+
+Metrics/LineLength:
+  Max: 124
 
 RedundantSelf:
   Enabled: false
