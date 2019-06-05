@@ -4,3 +4,6 @@ inherit_from:
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
     - 'app/controllers/microposts_controller.rb'
+Lint/AssignmentInCondition:
+  Exclude:
+    - 'app/helpers/sessions_helper.rb'
