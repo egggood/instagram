@@ -1,5 +1,5 @@
 class ReplyController < ApplicationController
-  before_action :logged_in_user, only:[:create, :destroy]
+  before_action :logged_in_user, only: [:create, :destroy]
 
   def create
     @micropost = Micropost.find(params[:id])
@@ -15,7 +15,7 @@ class ReplyController < ApplicationController
   end
 
   def destroy
-    @micropost =  Micropost.find(params[:micropost_id])
+    @micropost = Micropost.find(params[:micropost_id])
     @reply = @micropost.reply.find(params[:id])
     @reply.destroy
     flash[:success] = "返信の削除に成功しました"
@@ -23,8 +23,8 @@ class ReplyController < ApplicationController
   end
 
   private
+
   def reply_params
     params.require(:reply).permit(:content)
   end
-  
 end
