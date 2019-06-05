@@ -1,2 +1,6 @@
 inherit_from:
   - .rubocop_airbnb.yml
+
+Lint/ParenthesesAsGroupedExpression:
+  Exclude:
+    - 'app/controllers/microposts_controller.rb'
