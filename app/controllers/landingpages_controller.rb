@@ -1,7 +1,6 @@
 class LandingpagesController < ApplicationController
-
   def home
-    #後ほどuserがフォローしているユーザーの画像だけを表示する仕様にする
+    # 後ほどuserがフォローしているユーザーの画像だけを表示する仕様にする
     @microposts = Micropost.all
   end
 
@@ -16,5 +15,4 @@ class LandingpagesController < ApplicationController
 
   def terms_of_use
   end
-  
 end

@@ -3,22 +3,23 @@
 <div class = "container" >
   <div class = "row" >
     <div class = "col-md-6 col-md-offset-3" >
-<%= form_for :session, url: login_path do |f| %>
+      <%= form_for :session, url: login_path do |f| %>
 
-  <%= f.label :user_name %>
-  <%= f.text_field :user_name, class: 'form-control' %>
+        <%= f.label :user_name %>
+        <%= f.text_field :user_name, class: 'form-control' %>
 
-  <%= f.label :password %>
-  <%= f.password_field :password, class: 'form-control' %>
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
 
-  <%= f.label :password_confirmation, "確認用" %>
-  <%= f.password_field :password_confirmation, class: 'form-control' %>
+        <%= f.label :password_confirmation, "確認用" %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
 
-  <%= f.label :remember_me, class: "checkbox inline" do %>
-  <%= f.check_box :remember_me, class: 'form-control' %>
-  <span>Remember me on this computer</span>
-  <% end %>
-  <%= f.submit "ログインする", class: "col-md-6 col-md-offset-3 btn btn-primary" %>
+        <%= f.label :remember_me, class: "checkbox inline" do %>
+        <%= f.check_box :remember_me, class: 'form-control' %>
+        <span>Remember me on this computer</span>
+      <% end %>
+      <%# えンドはこの下じゃない？ %>
+      <%= f.submit "ログインする", class: "col-md-6 col-md-offset-3 btn btn-primary" %>
     </div>
   </div>
 </div>

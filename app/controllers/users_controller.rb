@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user,only:[:edit,:update, :destroy, :password_edit, :password_update]
-  before_action :correct_user, only:[:edit, :update, :destroy, :password_edit, :password_update]
+  before_action :logged_in_user, only: [:edit, :update, :destroy, :password_edit, :password_update]
+  before_action :correct_user, only: [:edit, :update, :destroy, :password_edit, :password_update]
 
   def new
     @user = User.new
@@ -27,13 +27,13 @@ class UsersController < ApplicationController
   end
 
   def update
-     @user = User.find(params[:id])
-     if @user.update_attributes(user_params)
-       flash[:success] = "更新に成功しました！"
-       redirect_to @user
-     else
-       render 'users/edit'
-     end
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = "更新に成功しました！"
+      redirect_to @user
+    else
+      render 'users/edit'
+    end
   end
 
   def destroy
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     @title = "Following"
     @user  = User.find(params[:id])
     @users = @user.following.paginate(page: params[:page])
-   render 'show_follow'
+    render 'show_follow'
   end
 
   def followers
@@ -58,8 +58,9 @@ class UsersController < ApplicationController
   end
 
   private
-  #passwordの更新と他のユーザー情報の更新を分けた場合はストロングパラメータも分けたほうがいいのかな？
-  #ユーザーのsign-up(#create)で使われているので、passwordがないとユーザーを登録できないので必要
+
+  # passwordの更新と他のユーザー情報の更新を分けた場合はストロングパラメータも分けたほうがいいのかな？
+  # ユーザーのsign-up(#create)で使われているので、passwordがないとユーザーを登録できないので必要
   def user_params
     params.require(:user).permit(:name, :user_name, :email, :self_introduction,
                                  :phonenumber, :gender, :profile_picture,
@@ -70,5 +71,4 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     redirect_to(root_path) unless @user == current_user
   end
-
 end

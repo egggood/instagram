@@ -6,9 +6,11 @@
     <li><%= link_to('help', help_path) %></li>
     <% if logged_in? %>
       <li class = "dropdown">
-        <button  data-toggle = "dropdown">Account
+        <!-- なにかおかしい -->
+        <button  data-toggle = "dropdown">
+          Account
         <span class="caret"></span>
-      </button>
+        </button>
         <ul class="dropdown-menu">
           <li><%= link_to('個人ぺージ', login_path) %></li>
           <li><%= link_to("ログアウト", logout_path, method: :delete) %></li>
