@@ -15,9 +15,9 @@
       <div>
         <ul>
           <% if current_user == @user %>
-          <li><%= link_to("編集する", edit_user_path(@user.id)) %></li>
+            <li><%= link_to("編集する", edit_user_path(@user.id)) %></li>
           <% else %>
-          <li><%= render 'users/follow_form' %></li>
+            <li><%= render 'users/follow_form' %></li>
           <% end %>
         </ul>
       </div>
@@ -27,9 +27,6 @@
 
   </aside>
 </div>
-
-
-
 
 <% will_paginate(@microposts) %>
 <% @microposts.each do |micropost| %>
