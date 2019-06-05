@@ -1,0 +1,22 @@
+<header class = "navbar navbar-defult navbar-fixed-top">
+  <ul class = "nav navbar-nav navbar-right" >
+    <li><%= link_to('top', root_url) %></li>
+    <li><%= link_to('about', about_path) %></li>
+    <li><%= link_to('contact', contact_path) %></li>
+    <li><%= link_to('help', help_path) %></li>
+    <% if logged_in? %>
+      <li class = "dropdown">
+        <button  data-toggle = "dropdown">Account
+        <span class="caret"></span>
+      </button>
+        <ul class="dropdown-menu">
+          <li><%= link_to('個人ぺージ', login_path) %></li>
+          <li><%= link_to("ログアウト", logout_path, method: :delete) %></li>
+        </ul>
+      </li>
+    <% else %>
+      <li><%= link_to('ログイン', login_path) %></li>
+      <li><%= link_to("新規登録", new_user_path) %></li>
+    <% end %>
+  </ul>
+</header>

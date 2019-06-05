@@ -1,0 +1,42 @@
+<% provide(:title, "Log in") %>
+<div class = "container" >
+  <div class = "row" >
+    <div class = "col-md-6 col-md-offset-3" >
+<%= form_for(@user) do |f| %>
+  <p>公開されます</p>
+  <%= f.label :name, 'name ※必須' %>
+  <%= f.text_field :name, class: 'form-control' %>
+
+  <%= f.label :user_name, 'user_nam ※必須' %>
+  <%= f.text_field :user_name, class: 'form-control' %>
+
+  <%= f.label :self_introduction, '自己紹介' %>
+  <%= f.text_field :self_introduction, class: 'form-control' %>
+
+  <p>以下の情報は他のユーザーには公開されません</p>
+  <%= f.label :email %>
+  <%= f.email_field :email, class: 'form-control' %>
+
+  <%= f.label :phonenumber, '電話番号' %>
+  <%= f.telephone_field :phonenumber, class: 'form-control' %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password, class: 'form-control' %>
+
+  <%= f.label :password_confirmation, "確認用" %>
+  <%= f.password_field :password_confirmation, class: 'form-control' %>
+　<%# passwordの上に持って行きたがったがfotm-controlをcheckoboxうまくかけるやり方が分からなかった %>
+  <%= f.radio_button :gender, "male" %>
+　<%= f.label :gender, "male" %>
+　<%= f.radio_button :gender, "female" %>
+　<%= f.label :gender, "femail" %>
+　<%# 現在の写真を表示したいvalueに入れればいいと思うけど飛ばす %>
+  <%= f.file_field :profile_picture, accept: 'image/jpeg,image/png' %>
+
+  <%= f.submit "更新する", class: "btn btn-primary col-md-6 col-md-offset-3" %>
+
+<% end %>
+　　　　</div>
+　　</div>
+</div>
+<%= link_to("Accountを削除する", user_path(@user.id), method: :delete) %>

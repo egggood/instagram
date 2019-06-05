@@ -1,0 +1,25 @@
+<% provide(:title, "Sign up") %>
+
+<div class = "container" >
+  <div class = "row" >
+    <div class = "col-md-6 col-md-offset-3" >
+<%= form_for @user do |f| %>
+  <%= f.label :name, "フルネーム" %>
+  <%= f.text_field :name, class: 'form-control'%>
+
+  <%= f.label :user_name %>
+  <%= f.text_field :user_name, class: 'form-control'%>
+
+  <%= f.label :password %>
+  <%= f.password_field :password, class: 'form-control'%>
+
+  <%= f.label :password_confirmation, "確認用" %>
+  <%= f.password_field :password_confirmation, class: 'form-control'%>
+
+  <%= f.submit "登録する", class: 'col-md-6 col-md-offset-3 btn-primary btn' %>
+      </div>
+    </div>
+  </div>
+<%= link_to("利用条約", terms_of_use_path) %>
+
+<% end %>

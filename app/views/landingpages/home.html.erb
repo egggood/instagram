@@ -1,0 +1,9 @@
+<% provide(:title, "Home") %>
+<% if logged_in? %>
+<% @microposts.each do |micropost| %>
+<%= image_tag(micropost.picture.url) %>
+<% end %>
+<% else %>
+<p>ログインしてください</p>
+<%= image_tag("top-view.jpg", size: 16*50) %>
+<% end %>

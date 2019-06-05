@@ -1,0 +1,22 @@
+<%= image_tag(@micropost.picture.url) %>
+<%= @micropost.content %>
+<%= render 'microposts/like_form' %>
+
+
+
+<% @replies.each do |reply| %>
+  <%= reply.content %>
+  <%= form_for(@reply, url: reply_path(reply.id), method: :delete) do |f| %>
+    <%= hidden_field_tag :micropost_id, @micropost.id %>
+    <%= f.submit "返信を削除する" %>
+  <% end %>
+<% end %>
+
+<%# replyをとうこうする %>
+<%# reply_indexでcreateアクションに飛ぶようになっている、なぜ？(rails routesで確認した) %>
+<%= form_for(@reply, url: reply_index_path ) do |f| %>
+<%= hidden_field_tag :id, @micropost.id %>
+<%= f.label :content, "返信" %>
+<%= f.text_field :content%>
+<%= f.submit "返信する" %>
+<% end %>

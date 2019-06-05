@@ -1,0 +1,5 @@
+<% if current_user.like?(@micropost) %>
+  <%= render 'microposts/unlike.html.erb' %>
+<% else %>
+  <%= render 'microposts/like.html.erb' %>
+<% end %>
