@@ -481,6 +481,7 @@ DEPENDENCIES
   rails-controller-testing
   rspec-rails (~> 3.6.0)
   rubocop-airbnb
+  rubocop-rspec
   sass-rails (~> 5.0)
   selenium-webdriver
   spring
