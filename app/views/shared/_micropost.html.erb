@@ -1,0 +1,6 @@
+<div>
+  <% if micropost.picture? %>
+    <%= link_to(image_tag(micropost.picture.url), micropost_path(micropost.id)) %>
+    <%= link_to("投稿を削除する", micropost_path(micropost), method: :delete) %>
+  <% end %>
+</div>
