@@ -1,22 +1,20 @@
-<%= image_tag(@micropost.picture.url) %>
-<%= @micropost.content %>
-<%= render 'microposts/like_form' %>
-
-
-
-<% @replies.each do |reply| %>
-  <%= reply.content %>
-  <%= form_for(@reply, url: reply_path(reply.id), method: :delete) do |f| %>
-    <%= hidden_field_tag :micropost_id, @micropost.id %>
-    <%= f.submit "返信を削除する" %>
-  <% end %>
-<% end %>
-
-<%# replyをとうこうする %>
-<%# reply_indexでcreateアクションに飛ぶようになっている、なぜ？(rails routesで確認した) %>
-<%= form_for(@reply, url: reply_index_path ) do |f| %>
-<%= hidden_field_tag :id, @micropost.id %>
-<%= f.label :content, "返信" %>
-<%= f.text_field :content%>
-<%= f.submit "返信する" %>
-<% end %>
+<div class="container_replay clearfix">
+  <div class="mictopost_container">
+    <ul class="tmp">
+      <li><%= image_tag(@micropost.picture.url) %></li>
+      <li><%= @micropost.content %></li>
+      <li><%= render 'microposts/like_form' %></li>
+      <%= form_for(@reply, url: reply_index_path ) do |f| %>
+        <li>
+          <%= hidden_field_tag :id, @micropost.id %>
+          <%= f.label :content, "返信" %>
+          <%= f.text_field :content%>
+          <%= f.submit "返信する" %>
+        <li>
+      <% end %>
+    </ul>
+  </div>
+  <div class = "replaies scroll_content">
+    <%= render partial: 'reply', collection: @replies %>
+  </div>
+</div>
