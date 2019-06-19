@@ -115,7 +115,6 @@ text-align: center;
 .replaies {
   float: right;
   width: 50%;
-
 }
 
 .replay{
@@ -123,4 +122,29 @@ text-align: center;
   margin: 10px;
   font-size: 24px;
   border: 5px solid gray;
+}
+
+// Home
+.container_home {
+  margin: 0 auto;
+}
+
+.title {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.container_home_micropost{
+  margin: 0 auto;
+}
+
+.container_home_micropost section {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
+.container_home_micropost p {
+  display: inline-block;
 }
