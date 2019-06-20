@@ -8,7 +8,7 @@ class MicropostsController < ApplicationController
   def show
     @micropost = Micropost.find(params[:id])
     @reply = Reply.new
-    @replies = Reply.all
+    @replies = @micropost.reply
   end
 
   def create
