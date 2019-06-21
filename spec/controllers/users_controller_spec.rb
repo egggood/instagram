@@ -17,7 +17,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "#show" do
     let(:user) { create(:user) }
-    let(:micropost) { create(:micropost, user: user)}
+    let(:micropost) { create(:micropost, user: user) }
 
     before do
       get :show, params: { id: user.id }
@@ -47,7 +47,7 @@ RSpec.describe UsersController, type: :controller do
 
       it "redirect_to user_path(user.id) when user.save => true" do
         post :create, params: params
-        #user_path(user.id)としたいがidはDBに保存されてつくのでお手上げ
+        # user_path(user.id)としたいがidはDBに保存されてつくのでお手上げ
         expect(response).to redirect_to "/users/1"
       end
     end
@@ -68,6 +68,7 @@ RSpec.describe UsersController, type: :controller do
   describe "DELETE #destory" do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
+
     before do
       session[:user_id] = user.id
     end

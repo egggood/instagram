@@ -7,7 +7,7 @@ RSpec.describe LandingpagesController, type: :controller do
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
-    
+
     it "render app/views/landingpages/home.html.erb" do
       expect(response).to render_template :home
     end

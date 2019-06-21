@@ -2,24 +2,40 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
   describe "GET #new" do
-    before do
-      get :new
+    context "user was not logged_in" do
+      before do
+        get :new
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "render :new" do
+        expect(response).to render_template :new
+      end
     end
 
-    it "returns http success" do
-      expect(response).to have_http_status(:success)
-    end
-
-    it "render :new" do
-      expect(response).to render_template :new
-    end
+    # あとで書き足す
+    # context "user was already logged_in" do
+    #   let(:user) { create(:user) }
+    #
+    #   before do
+    #     session[:user_id] = user.id
+    #     get :new
+    #   end
+    #
+    #   it "redirect_to user_path(id)" do
+    #     expect(response).to render_template(http://test.host/users/user.id)
+    #   end
+    # end
   end
 
   describe "Post #create" do
     context "as valid user that infomation has been recorded in database" do
       before do
         @param = { session: FactoryBot.attributes_for(:user) }
-        user = User.create(@param[:session])
+        User.create(@param[:session])
       end
 
       context "login with a cookies" do
@@ -53,11 +69,10 @@ RSpec.describe SessionsController, type: :controller do
       end
     end
 
-
     context "as invalid user that infomation has not been recorded in database" do
       before do
         @param = { session: FactoryBot.attributes_for(:user) }
-        user = User.create(@param[:session])
+        User.create(@param[:session])
         @param[:session][:user_name] = " "
       end
 
@@ -76,7 +91,7 @@ RSpec.describe SessionsController, type: :controller do
   describe "DELET #destory" do
     before do
       @param = { session: FactoryBot.attributes_for(:user) }
-      user = User.create(@param[:session])
+      User.create(@param[:session])
       @param[:session][:remember_me] = 1
     end
 
@@ -93,7 +108,7 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     # ログアウトに成功したらcookies[:user_id]はnilになってる
-    it "dose not contain session[:user_id] when succeeds to logout" do
+    it "dose not contain cookies[:user_id] when succeeds to logout" do
       delete :destroy, params: { **@param, id: 1 }
       expect(cookies[:user_id]).to eq nil
     end
