@@ -1,4 +1,6 @@
-<%= image_tag(@user.profile_picture.url, class: "img_userprofile") if @user.profile_picture?%>
-<p><%= "HN: #{ @user.name }" %></p>
-<p><%= "user_id: #{ @user.user_name }" %></p>
-<p><%= "投稿数: #{@user.microposts.count}" %></p>
+<div class="user_index_subcontainer">
+  <p class="user_index_img"><%= image_tag(user.profile_picture.url, class: "img_userprofile") if user.profile_picture? %></p>
+  <p><%= "HN: #{ user.name }" %></p>
+  <p><%= "user_id: #{ user.user_name }" %></p>
+  <p><%= "投稿数: #{ user.microposts.count }" %></p>
+</div>

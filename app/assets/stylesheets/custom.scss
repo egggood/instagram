@@ -148,3 +148,26 @@ text-align: center;
 .container_home_micropost p {
   display: inline-block;
 }
+
+//users#index
+.user_index_subcontainer {
+  position: relative;
+  width: 45%;
+  min-height: 100px;
+  display: inline-block;
+  background-color: rgb(220,220,220);
+  margin: 5px;
+}
+
+.user_index_img {
+  width: 20%;
+  position: absolute;
+  left: 5%;
+  top: 25%;
+  // margin-top: 20px;
+  margin: auto 0;
+}
+
+.user_index .img_userprofile {
+  display: inline-block;
+}
