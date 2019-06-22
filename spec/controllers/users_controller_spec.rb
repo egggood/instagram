@@ -66,7 +66,7 @@ RSpec.describe UsersController, type: :controller do
   # テストは何を基準としてフューチャーテストと分離すべきか。
   # 今回はアクションの中身は無視してactionを呼び適切なviewを引き出すことに絞るうことにした、
   describe "DELETE #destory" do
-    let(:user) { create(:user) }
+    let!(:user) { create(:user) }
     let(:other_user) { create(:user) }
 
     before do
@@ -80,8 +80,7 @@ RSpec.describe UsersController, type: :controller do
 
     # userがdleteされたらuserの総数は-1される
     it "deleteされたらuser.all.countの数は-1される" do
-      delete :destroy, params: { id: user.id }
-      expect(User.all.count).to eq 1
+      expect { delete :destroy, params: { id: user.id } }.to change { User.all.count }.by(-1)
     end
   end
 
@@ -163,6 +162,7 @@ RSpec.describe UsersController, type: :controller do
   describe "Get #following" do
     before do
       @user = FactoryBot.create(:user)
+      session[:user_id] = @user.id
     end
 
     it "returns http success" do
@@ -174,6 +174,7 @@ RSpec.describe UsersController, type: :controller do
   describe "Get #followed" do
     before do
       @user = FactoryBot.create(:user)
+      session[:user_id] = @user.id
     end
 
     it "returns http success" do
