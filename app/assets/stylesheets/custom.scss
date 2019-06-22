@@ -25,6 +25,20 @@ float: left;
 margin-right: 10px
 }
 
+// alert
+.alert {
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+// ユーザー登録
+.field_with_errors {
+
+}
 
 // ユーザー詳細
 .container {
