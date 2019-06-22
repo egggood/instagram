@@ -12,6 +12,7 @@
           <%= f.submit "返信する" %>
         <li>
       <% end %>
+      <li><%= link_to("投稿を削除する", micropost_path(@micropost), method: :delete) if @micropost.user == @current_user %></li>
     </ul>
   </div>
   <div class = "replaies scroll_content">
