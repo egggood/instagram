@@ -1,6 +1,7 @@
 <div class="micropost_post">
   <%= form_for(@micropost) do |f| %>
-    <%# <%= render 'shared/error_messages', object: f.object %>
+    <%= render partial: 'shared/alert', locals: { alert_containing_object: @micropost } %>
+
     <p>
       <%= f.text_area :content, placeholder: "140字以内でお願いします。", class: "micropost_post_holder" %>
     </p>
