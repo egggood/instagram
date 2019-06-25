@@ -18,6 +18,7 @@ RSpec.feature "Users", type: :feature do
     expect(page).to have_current_path user_path(User.find_by(name: user.name).id)
     expect(page).to have_content user.name
     expect(page).to have_content user.user_name
+    expect(page).to have_content "登録に成功しました!"
   end
 
   scenario "ユーザーの登録に失敗する" do
