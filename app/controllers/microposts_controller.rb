@@ -17,7 +17,6 @@ class MicropostsController < ApplicationController
       flash[:success] = "投稿に成功しました"
       redirect_to user_path @current_user.id
     else
-
       render new_micropost_path
     end
   end
