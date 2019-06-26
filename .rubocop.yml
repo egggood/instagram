@@ -1,7 +1,8 @@
-require: rubocop-rspec
-
 inherit_from:
+  - .rubocop_todo.yml
   - .rubocop_airbnb.yml
+
+require: rubocop-rspec
 
 Layout/IndentationConsistency:
   Exclude:
@@ -52,7 +53,36 @@ Lint/AssignmentInCondition:
     - 'app/helpers/sessions_helper.rb'
 
 Metrics/LineLength:
-  Max: 124
+  Max: 132
 
 RedundantSelf:
   Enabled: false
+
+Airbnb/ContinuationSlash:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Airbnb/OptArgParameters:
+  Exclude:
+    - 'app/helpers/application_helper.rb'
+
+Airbnb/SimpleModifierConditional:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Layout/AlignParameters:
+  Exclude:
+    - 'config/application.rb'
+
+Layout/EmptyLines:
+  Exclude:
+    - 'config/application.rb'
+    - 'spec/spec_helper.rb'
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'

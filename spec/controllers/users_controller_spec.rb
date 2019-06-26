@@ -2,38 +2,63 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   describe "GET #new" do
-    it "returns http success" do
+    before do
       get :new
+    end
+
+    it "returns http success" do
       expect(response).to have_http_status(:success)
+    end
+
+    it "rendet :new" do
+      expect(response).to render_template :new
     end
   end
 
   describe "#show" do
+    let(:user) { create(:user) }
+    let(:micropost) { create(:micropost, user: user) }
+
     before do
-      @user = FactoryBot.create(:user)
+      get :show, params: { id: user.id }
     end
 
     it "returns http success" do
-      get :show, params: { id: @user.id }
       expect(response).to have_http_status(:success)
+    end
+
+    it "render :show" do
+      expect(response).to render_template :show
+    end
+
+    it "has appropriate user" do
+      expect(assigns(:user)).to eq user
+    end
+
+    it "has appropriate microposts" do
+      expect(assigns(:microposts)).to match_array micropost
     end
   end
 
   # ストロングパラメータを使ったコントローラをRSpecでテストする方法が分からない
   describe "#create" do
-    # userの作成に成功する
-    # ローカル変数paramaを使うとuser_paramsを突破できるがなぜだかは不明、学習が進んだらhtml or httpの記述ととparamsの関係を調べてみる。
-    # redirect_to "/users/#{@user.id}"みたいにしたい..
-    it "redirect_to /users/n\#{@user.id} when @user.save => true" do
-      param = { user: FactoryBot.attributes_for(:user) }
-      post :create, params: param
-      expect(response).to redirect_to "/users/1"
+    context "userの作成に成功する" do
+      let(:params) { { user: attributes_for(:user) } }
+
+      it "redirect_to user_path(user.id) when user.save => true" do
+        post :create, params: params
+        # user_path(user.id)としたいがidはDBに保存されてつくのでお手上げ
+        expect(response).to redirect_to "/users/1"
+      end
     end
 
-    it "render 'users#new' when @user.save => false" do
-      param = { user: FactoryBot.attributes_for(:user, user_name: "") }
-      post :create, params: param
-      expect(response).to render_template 'users/new'
+    context "userの作成に失敗する" do
+      let(:params) { { user: attributes_for(:user, user_name: "") } }
+
+      it "render 'users#new' when user.save => false" do
+        post :create, params: params
+        expect(response).to render_template :new
+      end
     end
   end
 
@@ -41,21 +66,21 @@ RSpec.describe UsersController, type: :controller do
   # テストは何を基準としてフューチャーテストと分離すべきか。
   # 今回はアクションの中身は無視してactionを呼び適切なviewを引き出すことに絞るうことにした、
   describe "DELETE #destory" do
+    let!(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+
     before do
-      @user = FactoryBot.create(:user)
-      @othre_user1 = FactoryBot.create(:user)
-      session[:user_id] = @user.id
+      session[:user_id] = user.id
     end
 
     it "redirect_to root_url when user is deleted" do
-      delete :destroy, params: { id: @user.id }
-      expect(response).to redirect_to "/"
+      delete :destroy, params: { id: user.id }
+      expect(response).to redirect_to root_path
     end
 
     # userがdleteされたらuserの総数は-1される
     it "deleteされたらuser.all.countの数は-1される" do
-      delete :destroy, params: { id: @user.id }
-      expect(User.all.count).to eq 1
+      expect { delete :destroy, params: { id: user.id } }.to change { User.all.count }.by(-1)
     end
   end
 
@@ -137,6 +162,7 @@ RSpec.describe UsersController, type: :controller do
   describe "Get #following" do
     before do
       @user = FactoryBot.create(:user)
+      session[:user_id] = @user.id
     end
 
     it "returns http success" do
@@ -148,6 +174,7 @@ RSpec.describe UsersController, type: :controller do
   describe "Get #followed" do
     before do
       @user = FactoryBot.create(:user)
+      session[:user_id] = @user.id
     end
 
     it "returns http success" do

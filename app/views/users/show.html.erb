@@ -1,36 +1,28 @@
 <% provide(:title, "#{@user.name}") %>
-<div class  = "row" >
-  <aside class = "col-md-4">
-    <section class = "user_info">
-
-      <div>
-        <%= render 'users/user' %>
-        <%= render 'shared/stats.html' %>
-      </div>
-
-      <div>
-        <%= @user.self_introduction %>
-      </div>
-
-      <div>
-        <ul>
-          <% if current_user == @user %>
-            <li><%= link_to("編集する", edit_user_path(@user.id)) %></li>
-          <% else %>
-            <li><%= render 'users/follow_form' %></li>
-          <% end %>
-        </ul>
-      </div>
-
+<div class="container">
+  <div class="container_user_info clearfix">
+    <%= render partial: 'users/user', locals: { user: @user} %>
+    <%= render 'shared/stats.html' %>
+    <section class="self_introduction">
+      <%= @user.self_introduction %>
     </section>
+    <section>
+      <ul>
+        <% if current_user == @user %>
+        <li class="btn">
+          <%= link_to("編集", edit_user_path(@user.id)) %>
+        </li>
+        <li class="btn">
+          <%= link_to '投稿', new_micropost_path %>
+        </li>
+        <% else %>
+        <li class="btn"><%= render 'users/follow_form' %></li>
+        <% end %>
+      </ul>
+    </section>
+  </div>
 
-
-  </aside>
+  <div class="container_post scroll_content">
+    <%= render partial: 'shared/micropost', collection: @microposts %>
+  </div>
 </div>
-
-<% will_paginate(@microposts) %>
-<% @microposts.each do |micropost| %>
-<%= link_to(image_tag(micropost.picture.url), micropost_path(micropost.id)) if micropost.picture? %>
-<%= link_to("投稿を削除する", micropost_path(micropost), method: :delete) %>
-<% end %>
-<% will_paginate @microposts %>

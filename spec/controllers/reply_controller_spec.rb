@@ -39,21 +39,19 @@ RSpec.describe ReplyController, type: :controller do
       @user = User.first
     end
 
-    # 削除に成功したらmicropost_pathにredirect_toする
     it "redirect_to micropost_paht when successes to delete a reply" do
       session[:user_id] = @user.id
       delete :destroy, params: { id: @reply.id, micropost_id: @micropost.id }
       expect(response).to redirect_to micropost_path(@micropost)
     end
 
-    # 削除に成功したらrepliesテーブルの行が一つ減る。
-    it "redirect_to micropost_paht when successes to delete a reply" do
+    it "削除に成功したらrepliesテーブルの行が一つ減る。" do
       session[:user_id] = @user.id
       expect { delete :destroy, params: { id: @reply.id, micropost_id: @micropost.id } }.to change { @micropost.reply.count }.by(-1)
     end
 
     # 削除に成功したらmicropost_pathにredirect_toする
-    it "redirect_to micropost_paht when successes to delete a reply" do
+    it "redirect_to login_path when logged_in? is false" do
       delete :destroy, params: { id: @reply.id, micropost_id: @micropost.id }
       expect(response).to redirect_to login_path
     end

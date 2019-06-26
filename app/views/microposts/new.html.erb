@@ -1,10 +1,15 @@
-<%= form_for(@micropost) do |f| %>
-  <%# <%= render 'shared/error_messages', object: f.object %> %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
-  </div>
-  <%= f.submit "Post", class: "btn btn-primary" %>
-  <span class="picture">
-    <%= f.file_field :picture, accept: 'image/jpeg,image/png' %>
-  </span>
-<% end %>
+<div class="micropost_post">
+  <%= form_for(@micropost) do |f| %>
+    <%= render partial: 'shared/alert', locals: { alert_containing_object: @micropost } %>
+
+    <p>
+      <%= f.text_area :content, placeholder: "140字以内でお願いします。", class: "micropost_post_holder" %>
+    </p>
+    <p>
+      <%= f.file_field :picture, accept: 'image/jpeg,image/png' %>
+    </p>
+    <p>
+      <%= f.submit "Post", class: "micropost_post_btn"%>
+    </p>
+  <% end %>
+</div>

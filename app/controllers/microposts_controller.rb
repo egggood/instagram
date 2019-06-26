@@ -8,7 +8,7 @@ class MicropostsController < ApplicationController
   def show
     @micropost = Micropost.find(params[:id])
     @reply = Reply.new
-    @replies = Reply.all
+    @replies = @micropost.reply
   end
 
   def create
@@ -17,8 +17,7 @@ class MicropostsController < ApplicationController
       flash[:success] = "投稿に成功しました"
       redirect_to user_path @current_user.id
     else
-      # とりあえずhelpに飛ばす
-      render 'landingpages/help'
+      render new_micropost_path
     end
   end
 

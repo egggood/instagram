@@ -1,14 +1,18 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update, :destroy, :password_edit, :password_update]
+  before_action :logged_in_user, only: [:edit, :update, :destroy, :password_edit, :password_update, :following, :followers]
   before_action :correct_user, only: [:edit, :update, :destroy, :password_edit, :password_update]
 
   def new
     @user = User.new
   end
 
+  def index
+    @users = User.all
+  end
+
   def show
     @user = User.find_by(id: params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+    @microposts = @user.microposts
   end
 
   def create
@@ -46,14 +50,14 @@ class UsersController < ApplicationController
   def following
     @title = "Following"
     @user  = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
+    @users = @user.following
     render 'show_follow'
   end
 
   def followers
     @title = "Followers"
     @user  = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
+    @users = @user.followers
     render 'show_follow'
   end
 

@@ -1,9 +1,21 @@
 <% provide(:title, "Home") %>
-<% if logged_in? %>
-<% @microposts.each do |micropost| %>
-<%= image_tag(micropost.picture.url) %>
-<% end %>
-<% else %>
-<p>ログインしてください</p>
-<%= image_tag("top-view.jpg", size: 16*50) %>
-<% end %>
+<div class="container_home" >
+  <h1 class="title">みんなの投稿</h1>
+  <% if logged_in? %>
+    <div class="container_home_micropost clearfix">
+      <%= render partial: 'shared/micropost', collection: @microposts %>
+    </div>
+  <% else %>
+    <div class="box__area">
+      <div class="box box__bg_photo">
+        <h1>写真共有webサービス</h1>
+        <div class="box_registar">
+          <%= link_to "新規登録", new_user_path, class: "btn btn-lg btn-primary" %>
+        </div>
+        <div class="box_registar">
+          <%= link_to 'ログイン', login_path, class: "btn btn-lg btn-primary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

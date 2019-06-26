@@ -25,13 +25,10 @@ RSpec.describe Micropost, type: :model do
     expect(micropost.errors[:content]).to include("is too long (maximum is 140 characters)")
   end
 
-  before do
+  it "deletes all microposts connection a user when the the user is deleted" do
     @user = create(:user)
     create(:micropost, user: @user)
     create(:micropost, user: @user)
-  end
-
-  it "deletes all microposts connection a user when the the user is deleted" do
     expect { @user.destroy }.to change { Micropost.all.count }.by(-2)
   end
   # user_idが存在してもそのuserがないと保存できないことを保証するテストを書く
