@@ -22,6 +22,7 @@ RSpec.feature "Users#destroy", type: :feature do
       visit edit_user_path user.id
       click_link "Accountを削除する"
       expect(User.find_by(id: user.id)).to be nil
+      expect(page).to have_current_path root_path
     end
   end
 end
