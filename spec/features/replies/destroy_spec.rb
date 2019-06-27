@@ -3,10 +3,11 @@ require 'support/login_support'
 
 RSpec.feature "Reply#destroy", type: :feature do
   context "ログインしていない時" do
-    let(:micropost) { create(:micropost) }
+    let(:reply) { create(:reply) }
+    let(:micropost) { create(:micropost, reply: [reply]) }
 
     scenario "ログイン画面にredirectする" do
-      page.driver.submit(:delete, reply_path(micropost.id), {})
+      page.driver.submit(:delete, reply_path(reply.id), {})
       expect(page).to have_current_path login_path
     end
   end
