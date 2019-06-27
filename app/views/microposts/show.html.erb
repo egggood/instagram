@@ -1,7 +1,7 @@
 <div class="container_replay clearfix">
   <div class="mictopost_container">
     <ul class="tmp">
-      <li><%= image_tag(@micropost.picture.url) %></li>
+      <li><%= image_tag(@micropost.picture.url) unless @micropost.picture.blank?%></li>
       <li><%= @micropost.content %></li>
       <li><%= render 'microposts/like_form' %></li>
       <%= form_for(@reply, url: reply_index_path ) do |f| %>
@@ -12,7 +12,7 @@
           <%= f.submit "返信する" %>
         <li>
       <% end %>
-      <li><%= link_to("投稿を削除する", micropost_path(@micropost), method: :delete) if @micropost.user == @current_user %></li>
+      <li><%= link_to("投稿を削除する", micropost_path(@micropost), method: :delete) if @micropost.user == current_user %></li>
     </ul>
   </div>
   <div class = "replaies scroll_content">
