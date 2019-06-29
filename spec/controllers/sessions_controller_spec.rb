@@ -1,11 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-  describe "GET #new" do
-    context "user was not logged_in" do
+  describe "GET#new" do
+    context "既にログインしている時" do
+      let(:user) { create(:user) }
+
       before do
+        session[:user_id] = user.id
         get :new
       end
+
+      it "returns http 302" do
+        expect(response).to have_http_status 302
+      end
+
+      it "render :new" do
+        expect(response).to redirect_to user_path session[:user_id]
+      end
+    end
+
+    context "ログインしていない時" do
+      before { get :new }
 
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -15,108 +30,94 @@ RSpec.describe SessionsController, type: :controller do
         expect(response).to render_template :new
       end
     end
-
-    # あとで書き足す
-    # context "user was already logged_in" do
-    #   let(:user) { create(:user) }
-    #
-    #   before do
-    #     session[:user_id] = user.id
-    #     get :new
-    #   end
-    #
-    #   it "redirect_to user_path(id)" do
-    #     expect(response).to render_template(http://test.host/users/user.id)
-    #   end
-    # end
   end
 
-  describe "Post #create" do
-    context "as valid user that infomation has been recorded in database" do
-      before do
-        @param = { session: FactoryBot.attributes_for(:user) }
-        User.create(@param[:session])
-      end
+  describe "Post#create" do
+    let(:user_params) { attributes_for(:user) }
+    let!(:user) { create(:user, **user_params) }
 
-      context "login with a cookies" do
-        before do
-          @param[:session][:remember_me] = 1
+    context "ログインに成功する" do
+      context "ログインして、cookiesを保存する" do
+        it "redirect_to user_path user.id" do
+          post :create, params: { session: { **user_params, remember_me: 1 } }
+          expect(response).to redirect_to user_path user.id
         end
 
-        it "successfully login " do
-          post :create, params: @param
-          expect(response).to redirect_to "/users/1"
+        it "returns http 302" do
+          post :create, params: { session: { **user_params, remember_me: 1 } }
+          expect(response).to have_http_status 302
         end
 
-        it "contains cookies[:user_id] when succeeds to login with params[:session][:remember_me] = '1' " do
-          post :create, params: @param
+        it "session情報を保持する" do
+          post :create, params: { session: { **user_params, remember_me: 1 } }
+          expect(session[:user_id]).to eq user.id
+        end
+
+        it "cookiesがuser情報を保持する" do
+          post :create, params: { session: { **user_params, remember_me: 1 } }
           expect(cookies[:user_id]).not_to eq nil
         end
       end
 
-      context "login without a cookies" do
-        # 上のcontextと重複したテストそしてしまっている
-        it "successfully login " do
-          post :create, params: @param
-          expect(response).to redirect_to "/users/1"
+      context "ログインするが、cookiesは保存しない" do
+        it "redirect_to user_path user.id" do
+          post :create, params: { session: { **user_params, remember_me: 0 } }
+          expect(response).to redirect_to user_path user.id
+        end
+
+        it "returns http 302" do
+          post :create, params: { session: { **user_params, remember_me: 0 } }
+          expect(response).to have_http_status 302
+        end
+
+        it "session情報を保持する" do
+          post :create, params: { session: { **user_params, remember_me: 0 } }
+          expect(session[:user_id]).to eq user.id
         end
 
         it "dose not contains cookies[:user_id] when succeeds to login without params[:session][:remember_me] = '0' " do
-          post :create, params: @param
-          expect(cookies[:user_id]).to eq nil
+          post :create, params: { session: { **user_params, remember_me: 0 } }
+          expect(request.cookies[:user_id]).to eq nil
         end
-        # session[:user_id]がnil出ないテストも書いた方がいいのかな?スペックテストでまとめた方がコードの量も可読性も上がりそう。
       end
     end
 
-    context "as invalid user that infomation has not been recorded in database" do
-      before do
-        @param = { session: FactoryBot.attributes_for(:user) }
-        User.create(@param[:session])
-        @param[:session][:user_name] = " "
-      end
-
-      it "unsuccessfully login " do
-        post :create, params: @param
-        expect(response).to render_template "sessions/new"
-      end
-
-      it "dose not contain cookies[:user_id] when failded to login" do
-        post :create, params: @param
-        expect(cookies[:user_id]).to eq nil
-      end
-    end
+    # context "ログインに失敗する" do
+    #   context "params[:session][:user_name]がない時" do
+    #
+    #   end
+    #   context "user.authenticate(params[:session][:password])がnilの時" do
+    #
+    #   end
+    # end
   end
 
-  describe "DELET #destory" do
+  describe "DELET#destory" do
+    let(:user_params) { attributes_for(:user) }
+    let!(:user) { create(:user, **user_params) }
+
     before do
-      @param = { session: FactoryBot.attributes_for(:user) }
-      User.create(@param[:session])
-      @param[:session][:remember_me] = 1
+      post :create, params: { session: { **user_params, remember_me: 1 } }
     end
 
-    # ログアウトに成功するしたらroot_urlにリダイレクトする
-    it "succeeds to logout" do
-      delete :destroy, params: { **@param, id: 1 }
-      expect(response).to redirect_to '/'
+    it "redirect_to root_path" do
+      delete :destroy
+      expect(response).to redirect_to root_path
     end
 
-    # ログアウトに成功したらsession[:user_id]はnilになってる
-    it "dose not contain session[:user_id] when succeeds to logout" do
-      delete :destroy, params: { **@param, id: 1 }
+    it "returns http 302" do
+      delete :destroy
+      expect(response).to have_http_status 302
+    end
+
+    it "session情報を保持しない" do
+      delete :destroy
       expect(session[:user_id]).to eq nil
     end
 
-    # ログアウトに成功したらcookies[:user_id]はnilになってる
-    it "dose not contain cookies[:user_id] when succeeds to logout" do
-      delete :destroy, params: { **@param, id: 1 }
-      expect(cookies[:user_id]).to eq nil
+    it "cooky情報を保持しない" do
+      delete :destroy
+      expect(response.cookies[:user_id]).to eq nil
     end
-
-    # #ちゃんとログアウトに失敗する
-    # #例外(find)波動処理すればいいのか不明
-    # it "failed to logout" do
-    #
-    # end
   end
 end

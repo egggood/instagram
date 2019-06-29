@@ -2,58 +2,117 @@ require 'rails_helper'
 
 RSpec.describe ReplyController, type: :controller do
   describe "Post #create" do
-    before do
-      FactoryBot.create(:reply)
-      # 上のコマンドで生成されたmicropostを取り出したい
-      @micropost = Micropost.first
-      @user = User.first
+    context "ログインしていない時" do
+      let(:micropost) { create(:micropost) }
+
+      it "redirect_to login_path" do
+        post :create, params: { id: micropost.id }
+        expect(response).to redirect_to login_path
+      end
+
+      it "returns http 302" do
+        post :create, params: { id: micropost.id }
+        expect(response).to have_http_status 302
+      end
     end
 
-    # 投稿に成功したらmicropost/show/:idに戻る
-    it "return http success" do
-      session[:user_id] = @user.id
-      post :create, params: { reply: { micropost_id: @micropost.id, content: "こんにちは" }, id: @micropost.id }
-      expect(response).to redirect_to @micropost
-    end
+    context "ログインしている時" do
+      let(:user) { create(:user) }
+      let(:micropost) { create(:micropost, user: user) }
+      let(:vlid_reply_params) { attributes_for(:reply) }
+      let(:invlid_reply_params) { attributes_for(:reply, content: "") }
 
-    # 投稿に成功したらrepliesテーブルの行が一つ増える
-    # 投稿に失敗したらroot_pathい戻る
-    it "render root_path with a invalid content" do
-      session[:user_id] = @user.id
-      post :create, params: { reply: { micropost_id: @micropost.id, content: "a" * 141 }, id: @micropost.id }
-      expect(response).to render_template "landingpages/home"
-    end
+      before do
+        session[:user_id] = user.id
+      end
 
-    # ログインしてないと/loginにとぶ
-    it "redirect_to login_path when not logged in" do
-      post :create, params: { reply: { micropost_id: @micropost.id, content: "こんにちは" }, id: @micropost.id }
-      expect(response).to redirect_to "#{login_path}"
+      context "作成に成功する" do
+        it "redirect_to micropost_path micropost.id" do
+          post :create, params: { reply: { **vlid_reply_params }, id: micropost.id }
+          expect(response).to redirect_to micropost_path micropost.id
+        end
+
+        it "returns http 302" do
+          post :create, params: { reply: { **vlid_reply_params }, id: micropost.id }
+          expect(response).to have_http_status 302
+        end
+
+        it "適切なmicropostが格納されている" do
+          post :create, params: { reply: { **vlid_reply_params }, id: micropost.id }
+          expect(assigns(:micropost)).to match(micropost)
+        end
+
+        it "適切なrepliesが格納されている" do
+          post :create, params: { reply: { **vlid_reply_params }, id: micropost.id }
+          expect(assigns(:replies)).to match(micropost.reply)
+        end
+
+        # カラム数が増加するることを確認するテスト
+      end
+
+      context "作成に失敗する" do
+        it "render root_path" do
+          post :create, params: { reply: { **invlid_reply_params }, id: micropost.id }
+          expect(response).to render_template 'landingpages/home'
+        end
+
+        it "returns http success" do
+          post :create, params: { reply: { **invlid_reply_params }, id: micropost.id }
+          expect(response).to have_http_status(:success)
+        end
+      end
     end
   end
 
   describe "Delete #destroy" do
-    before do
-      @reply = FactoryBot.create(:reply)
-      # 上のコマンドで生成されたmicropostを取り出したい
-      @micropost = Micropost.first
-      @user = User.first
+    context "ログインしいない時" do
+      let(:micropost) { create(:micropost) }
+      let!(:reply) { create(:reply, micropost: micropost) }
+
+      it "redirect_to login_path" do
+        delete :destroy, params: { id: reply.id, micropost_id: micropost.id }
+        expect(response).to redirect_to login_path
+      end
+
+      it "returns https 302" do
+        delete :destroy, params: { id: reply.id, micropost_id: micropost.id }
+        expect(response).to have_http_status 302
+      end
     end
 
-    it "redirect_to micropost_paht when successes to delete a reply" do
-      session[:user_id] = @user.id
-      delete :destroy, params: { id: @reply.id, micropost_id: @micropost.id }
-      expect(response).to redirect_to micropost_path(@micropost)
-    end
+    context "ログインしている時" do
+      let(:user) { create(:user) }
+      let(:micropost) { create(:micropost, user: user) }
+      let!(:reply) { create(:reply, micropost: micropost) }
 
-    it "削除に成功したらrepliesテーブルの行が一つ減る。" do
-      session[:user_id] = @user.id
-      expect { delete :destroy, params: { id: @reply.id, micropost_id: @micropost.id } }.to change { @micropost.reply.count }.by(-1)
-    end
+      before do
+        session[:user_id] = user.id
+      end
 
-    # 削除に成功したらmicropost_pathにredirect_toする
-    it "redirect_to login_path when logged_in? is false" do
-      delete :destroy, params: { id: @reply.id, micropost_id: @micropost.id }
-      expect(response).to redirect_to login_path
+      context "replyの削除に成功する" do
+        it "redirect_to micropost_path micropost.id" do
+          delete :destroy, params: { id: reply.id, micropost_id: micropost.id }
+          expect(response).to redirect_to micropost_path micropost.id
+        end
+
+        it "returns https 302" do
+          delete :destroy, params: { id: reply.id, micropost_id: micropost.id }
+          expect(response).to have_http_status 302
+        end
+
+        it "適切なmicropostが格納されている" do
+          delete :destroy, params: { id: reply.id, micropost_id: micropost.id }
+          expect(assigns(:micropost)).to match micropost
+        end
+
+        it "カラムの数がかわる" do
+          expect { delete :destroy, params: { id: reply.id, micropost_id: micropost.id } }.to change { micropost.reply.count }.by(-1)
+        end
+      end
+
+      # context "replyの削除に失敗する" do
+      #   erroeが発生する
+      # end
     end
   end
 end

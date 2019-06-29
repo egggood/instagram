@@ -1,5 +1,5 @@
 class MicropostsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy, :show]
+  before_action :logged_in_user, only: [:create, :destroy, :show, :new]
 
   def new
     @micropost = Micropost.new
@@ -22,8 +22,7 @@ class MicropostsController < ApplicationController
   end
 
   def destroy
-    # 違うuuserの投稿を削除しようとしたら例外が生じる
-    @micropost = @current_user.microposts.find(params[:id])
+    @micropost = current_user.microposts.find(params[:id])
     @micropost.destroy
     flash[:success] = "削除に成功しました。"
     redirect_to (user_path @current_user.id)

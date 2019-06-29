@@ -5,11 +5,12 @@ RSpec.feature "Sessions#new", type: :feature do
   context "ログインしていない時" do
     scenario "login_pathにredirectする" do
       visit new_micropost_path
+      # なにかおかしい
     end
   end
 
   context "ログインしている時" do
-    let!(:user) { create(:user) }
+    let(:user) { create(:user) }
 
     before do
       sign_in user
@@ -29,7 +30,6 @@ RSpec.feature "Sessions#new", type: :feature do
     end
 
     scenario "投稿に失敗する" do
-
       visit user_path user.id
       click_link '投稿'
       expect(page).to have_current_path new_micropost_path

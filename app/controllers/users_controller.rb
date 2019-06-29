@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update, :destroy, :password_edit, :password_update, :following, :followers]
+  before_action :logged_in_user, only: [:show, :edit, :update, :destroy, :password_edit, :password_update, :following, :followers]
   before_action :correct_user, only: [:edit, :update, :destroy, :password_edit, :password_update]
 
   def new
@@ -66,6 +66,9 @@ class UsersController < ApplicationController
   # passwordの更新と他のユーザー情報の更新を分けた場合はストロングパラメータも分けたほうがいいのかな？
   # ユーザーのsign-up(#create)で使われているので、passwordがないとユーザーを登録できないので必要
   def user_params
+    if params[:user][:email] = ""
+      params[:user][:email] = nil
+    end
     params.require(:user).permit(:name, :user_name, :email, :self_introduction,
                                  :phonenumber, :gender, :profile_picture,
                                  :password, :password_confirmation)

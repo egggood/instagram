@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/login_support'
 
-RSpec.feature "Sessions#new", type: :feature do
+RSpec.feature "Replies#new", type: :feature do
   let(:micropost) { create(:micropost) }
 
   context "ログインしていない時" do
