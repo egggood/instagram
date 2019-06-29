@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/login_support'
 
-RSpec.feature "Reply#destroy", type: :feature do
+RSpec.feature "Micropost#destroy", type: :feature do
   context "ログインしていない時" do
     let(:micropost) { create(:micropost) }
 
