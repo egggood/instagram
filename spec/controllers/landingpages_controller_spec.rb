@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe LandingpagesController, type: :controller do
   describe "GET #home" do
+    let(:micropost_1) { create(:micropost) }
+    let(:micropost_2) { create(:micropost) }
+
     before { get :home }
 
     it "returns http success" do
@@ -10,6 +13,10 @@ RSpec.describe LandingpagesController, type: :controller do
 
     it "render app/views/landingpages/home.html.erb" do
       expect(response).to render_template :home
+    end
+
+    it "適切なmiropostsを取得する" do
+      expect(assigns(:microposts)).to match_array([micropost_1, micropost_2])
     end
   end
 
