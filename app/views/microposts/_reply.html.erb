@@ -1,6 +1,6 @@
 <div class="replay">
   <%= reply.content %>
-  <%= form_for(@reply, url: reply_path(reply.id), method: :delete) do |f| %>
+  <%= form_for(reply, url: reply_path(reply.id), method: :delete) do |f| %>
   <%= hidden_field_tag :micropost_id, @micropost.id %>
   <%= f.submit "返信を削除する" %>
   <% end %>
