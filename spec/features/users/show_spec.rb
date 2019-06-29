@@ -29,23 +29,26 @@ RSpec.feature "Users#edit", type: :feature do
       scenario "follow/unfollowボタンがある" do
         visit user_path other_user.id
         expect(page).to have_current_path user_path other_user.id
-        expect(page).to have_content "follow"
-        expect(page).not_to have_content "unfollow"
+        expect(page).to have_button "follow"
+        expect(page).not_to have_button "unfollow"
         click_button "follow"
-        expect(page).not_to have_content "unfollow"
-        expect(page).to have_content "follow"
+        # expect(page).not_to have_button "follow"
+        expect(page).to have_button "unfollow"
       end
     end
 
     context "自分の情報を見ている時" do
-      scenario "編集ボタンが存在しない" do
-      end
-
-      scenario "follow/unfollowボタンがある" do
+      scenario "編集ボタンがある" do
         visit user_path user.id
         expect(page).to have_current_path user_path user.id
-        expect(page).not_to have_content "unfollow"
-        expect(page).not_to have_content "unfollow"
+        expect(page).to have_content "編集"
+      end
+
+      scenario "follow/unfollowボタンがない" do
+        visit user_path user.id
+        expect(page).to have_current_path user_path user.id
+        expect(page).not_to have_button "follow"
+        expect(page).not_to have_button "unfollow"
       end
     end
   end
