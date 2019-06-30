@@ -36,6 +36,7 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'rubocop-airbnb'
   gem 'rubocop-rspec'
+  gem 'bullet'
 end
 
 group :test do
