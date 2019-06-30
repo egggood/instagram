@@ -8,6 +8,5 @@ if Rails.env.production?
     }
 
     config.fog_directory = 'kai-instagram-123'
-    config.cache_storage = :fog
   end
 end
