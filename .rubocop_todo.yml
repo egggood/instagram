@@ -1,0 +1,31 @@
+# Offense count: 2
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
+# SupportedStyles: space, no_space, compact
+# SupportedStylesForEmptyBrackets: space, no_space
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - 'config/environments/production.rb'
+
+# Offense count: 1
+# Configuration parameters: CustomIncludeMethods.
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/features/projects_spec.rb'
+
+# Offense count: 3
+# Cop supports --auto-correct.
+# Configuration parameters: PreferredDelimiters.
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - 'config/spring.rb'
+    - 'spec/models/user_spec.rb'
+
+# Offense count: 2
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyleForMultiline.
+# SupportedStylesForMultiline: comma, consistent_comma, no_comma
+Style/TrailingCommaInHashLiteral:
+  Exclude:
+    - 'config/environments/development.rb'
+    - 'config/environments/test.rb'
