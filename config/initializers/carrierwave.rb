@@ -8,6 +8,5 @@ if Rails.env.production?
     }
 
     config.fog_directory = 'kai-instagram-123'
-    config.asset_host = 'https://s3.amazonaws.com/kai-instagram-123'
   end
 end
