@@ -9,3 +9,4 @@ railsチュートリアルを学習後にアウトプットとして作成した
 ・画像投稿機能
 ・Rspecの導入
 ・rubocopによるrails style guidに沿ったコード
+url: https://shrouded-dusk-20806.herokuapp.com
